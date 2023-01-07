@@ -126,38 +126,69 @@ void WindowService::DrawMap(int type, int posx, int posy){
     //     glDrawArrays(GL_POINTS,renderedTile, 1);
     // }
 
+    // Render local
     glUseProgram(_shaderProgram);
     glBindVertexArray(_VAO);
 
     glUniform1i(_typeLoc, 0);
     glUniformMatrix4fv(_projectionLoc, 1, GL_FALSE, glm::value_ptr(_projectionMAT));
     glUniformMatrix4fv(_transformLoc, 1, GL_FALSE, glm::value_ptr(_transformMAT));
-    
+        
+    if(type == 0) {
 
-    // int currentType = 0;
+        // int currentType = 0;
 
-    for (int x = 0; x < _localMap->Size(); x++) {
-        for (int y = 0; y < _localMap->Size(); y++) {
+        for (int x = 0; x < _localMap->Size(); x++) {
+            for (int y = 0; y < _localMap->Size(); y++) {
 
-            if (_cursor[0] == x && _cursor[1] == y){
-                glUniform1i(_typeLoc, 2);
+                if (_cursor[0] == x && _cursor[1] == y){
+                    glUniform1i(_typeLoc, 2);
+                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                    glUniform1i(_typeLoc, 0);
+                    continue;   
+                }
+
+
+                if (_localMap->RawMap()[x][y] != 0) {
+                    glUniform1i(_typeLoc, 1);
+                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                    glUniform1i(_typeLoc, 0);
+                    continue;
+                }
+
                 glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                glUniform1i(_typeLoc, 0);
-                continue;   
+                
             }
-
-
-            if (_localMap->RawMap()[x][y] != 0) {
-                glUniform1i(_typeLoc, 1);
-                glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                glUniform1i(_typeLoc, 0);
-                continue;
-            }
-
-            glDrawArrays(GL_POINTS, (y*10) + x, 1);
-            
         }
     }
+
+    // Render server
+    if (type == 2) {
+        for (int x = 0; x < _localMap->Size(); x++) {
+            for (int y = 0; y < _localMap->Size(); y++) {
+
+                if (_cursor[0] == x && _cursor[1] == y){
+                    glUniform1i(_typeLoc, 2);
+                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                    glUniform1i(_typeLoc, 0);
+                    continue;   
+                }
+
+
+                if (_serverMap->RawMap()[x][y] != 0) {
+                    glUniform1i(_typeLoc, 1);
+                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                    glUniform1i(_typeLoc, 0);
+                    continue;
+                }
+
+                glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                
+            }
+        }
+    }
+
+    
 
     // _windowInstance.pushGLStates();
     
