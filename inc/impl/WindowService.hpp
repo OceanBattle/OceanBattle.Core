@@ -70,6 +70,8 @@ class WindowService : WindowServiceBase {
         // Moves diagonal cursor.
         void MoveDiagonalCursor(Rotation direction);
 
+        void SetRotationPtr(Rotation * ptr);
+
 
     private:
         // window instance.
@@ -107,6 +109,9 @@ class WindowService : WindowServiceBase {
         
         // Type location.
         GLuint _typeLoc;
+
+        // Rotation.
+        Rotation * _rotation;
 
 
         // Map dimensions.

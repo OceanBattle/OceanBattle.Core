@@ -24,6 +24,7 @@ int main(){
 
     LocalMap local(10);
     windowService.SetLocalMap(local.GetMap());
+    windowService.SetRotationPtr(local.GetRotation());
 
     // for (int x = 0; x < local.GetMap()->Size() * local.GetMap()->Size() * 2; x += 2){
     //     std::cout
@@ -46,7 +47,7 @@ int main(){
 
     while(windowService.IsOpen()){
 
-        switch (local.GetRotation()) {
+        switch (*local.GetRotation()) {
             case top:
                 data.text = ROTTOP;
                 break;

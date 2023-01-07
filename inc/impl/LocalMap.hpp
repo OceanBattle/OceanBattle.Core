@@ -18,7 +18,7 @@ class LocalMap {
         // Rotates ship to be placed
         void RotateShip();
 
-        Rotation GetRotation();
+        Rotation * GetRotation();
 
         // Gets current map data.
         Map * GetMap();

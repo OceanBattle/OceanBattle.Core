@@ -148,6 +148,40 @@ void WindowService::DrawMap(int type, int posx, int posy){
                     continue;   
                 }
 
+                switch (*_rotation) {
+                    case top:
+                        if (_cursor[0] == x && _cursor[1] == y + 1 && y < _localMap->Size()){
+                        glUniform1i(_typeLoc, 2);
+                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                        glUniform1i(_typeLoc, 0);
+                        continue;  
+                        } 
+                        break;
+                    case down:
+                        if (_cursor[0] == x && _cursor[1] == y - 1 && y > 0){
+                        glUniform1i(_typeLoc, 2);
+                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                        glUniform1i(_typeLoc, 0);
+                        continue;  
+                        } 
+                        break;
+                    case left:
+                        if (_cursor[0] == x + 1 && _cursor[1] == y && x < _localMap->Size()){
+                        glUniform1i(_typeLoc, 2);
+                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                        glUniform1i(_typeLoc, 0);
+                        continue;  
+                        } 
+                        break;
+                    case right:
+                        if (_cursor[0] == x - 1 && _cursor[1] == y && x > 0){
+                        glUniform1i(_typeLoc, 2);
+                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                        glUniform1i(_typeLoc, 0);
+                        continue;  
+                        } 
+                        break;
+                }
 
                 if (_localMap->RawMap()[x][y] != 0) {
                     glUniform1i(_typeLoc, 1);
@@ -373,4 +407,8 @@ void WindowService::AddShader(GLenum type, const char * filename){
     CheckShader(shader);
 
     glAttachShader(_shaderProgram, shader);
+}
+
+void WindowService::SetRotationPtr(Rotation *ptr){
+    _rotation = ptr;
 }

@@ -78,6 +78,6 @@ Map * LocalMap::GetMap() {
     return &_mapInstance;
 }
 
-Rotation LocalMap::GetRotation() {
-    return _rotation;
+Rotation * LocalMap::GetRotation() {
+    return &_rotation;
 }
