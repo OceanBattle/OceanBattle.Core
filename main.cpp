@@ -41,7 +41,7 @@ int main(){
         .text = ROTTOP
     };
 
-
+    local.SetSize(3);
 
     windowService.ReceiveVisual(&data);
 

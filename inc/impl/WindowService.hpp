@@ -72,6 +72,7 @@ class WindowService : WindowServiceBase {
 
         void SetRotationPtr(Rotation * ptr);
 
+        void SetLengthShip(int length);
 
     private:
         // window instance.
@@ -112,6 +113,8 @@ class WindowService : WindowServiceBase {
 
         // Rotation.
         Rotation * _rotation;
+
+        int _shipLength = 3;
 
 
         // Map dimensions.

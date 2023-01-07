@@ -141,6 +141,17 @@ void WindowService::DrawMap(int type, int posx, int posy){
         for (int x = 0; x < _localMap->Size(); x++) {
             for (int y = 0; y < _localMap->Size(); y++) {
 
+                glDrawArrays(GL_POINTS, (y*10) + x, 1);
+
+                if (_localMap->RawMap()[x][y] != 0) {
+                    glUniform1i(_typeLoc, 1);
+                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                    glUniform1i(_typeLoc, 0);
+                }
+
+
+
+
                 if (_cursor[0] == x && _cursor[1] == y){
                     glUniform1i(_typeLoc, 2);
                     glDrawArrays(GL_POINTS, (y*10) + x, 1);
@@ -150,47 +161,47 @@ void WindowService::DrawMap(int type, int posx, int posy){
 
                 switch (*_rotation) {
                     case top:
-                        if (_cursor[0] == x && _cursor[1] == y + 1 && y < _localMap->Size()){
-                        glUniform1i(_typeLoc, 2);
-                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                        glUniform1i(_typeLoc, 0);
-                        continue;  
-                        } 
-                        break;
+                        for (int currentSize = 1; currentSize < _shipLength; currentSize++) {
+                            if (_cursor[0] == x && _cursor[1] == y + currentSize) {
+                            // std::cout << _shipLength << std::endl;
+                            glUniform1i(_typeLoc, 2);
+                            glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                            glUniform1i(_typeLoc, 0);
+                            } 
+                        }
+                        continue;
                     case down:
-                        if (_cursor[0] == x && _cursor[1] == y - 1 && y > 0){
-                        glUniform1i(_typeLoc, 2);
-                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                        glUniform1i(_typeLoc, 0);
+                        for (int currentSize = 1; currentSize < _shipLength; currentSize++) {
+                            if (_cursor[0] == x && _cursor[1] == y - currentSize){
+                            glUniform1i(_typeLoc, 2);
+                            glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                            glUniform1i(_typeLoc, 0);
+                            } 
+                        }
                         continue;  
-                        } 
-                        break;
                     case left:
-                        if (_cursor[0] == x + 1 && _cursor[1] == y && x < _localMap->Size()){
-                        glUniform1i(_typeLoc, 2);
-                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                        glUniform1i(_typeLoc, 0);
+                        for (int currentSize = 1; currentSize < _shipLength; currentSize++) {
+                            if (_cursor[0] == x + currentSize && _cursor[1] == y){
+                            glUniform1i(_typeLoc, 2);
+                            glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                            glUniform1i(_typeLoc, 0);
+                            } 
+                        }
                         continue;  
-                        } 
-                        break;
                     case right:
-                        if (_cursor[0] == x - 1 && _cursor[1] == y && x > 0){
-                        glUniform1i(_typeLoc, 2);
-                        glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                        glUniform1i(_typeLoc, 0);
+                        for (int currentSize = 1; currentSize < _shipLength; currentSize++) {
+                            if (_cursor[0] == x - currentSize && _cursor[1] == y){
+                            glUniform1i(_typeLoc, 2);
+                            glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                            glUniform1i(_typeLoc, 0);
+                            } 
+                        }
                         continue;  
-                        } 
-                        break;
                 }
 
-                if (_localMap->RawMap()[x][y] != 0) {
-                    glUniform1i(_typeLoc, 1);
-                    glDrawArrays(GL_POINTS, (y*10) + x, 1);
-                    glUniform1i(_typeLoc, 0);
-                    continue;
-                }
+                
 
-                glDrawArrays(GL_POINTS, (y*10) + x, 1);
+                
                 
             }
         }
@@ -356,8 +367,21 @@ void WindowService::PollEvents(void * data) {
             // if (event.key.code == sf::Keyboard::W) MoveDiagonalCursor(top);
             // if (event.key.code == sf::Keyboard::S) MoveDiagonalCursor(down);
             if (event.key.code == sf::Keyboard::R) local->RotateShip();
-            if (event.key.code == sf::Keyboard::Enter) local->PlaceShip(_cursor[0], _cursor[1], 2);
+            if (event.key.code == sf::Keyboard::Enter) local->PlaceShip(_cursor[0], _cursor[1]);
             if (event.key.code == sf::Keyboard::Escape) _windowInstance.close();
+
+            if (event.key.code == sf::Keyboard::I) {
+                    local->SetSize(1);
+                    _shipLength = 1;
+                }
+            if (event.key.code == sf::Keyboard::O) {
+                    local->SetSize(2);
+                    _shipLength = 2;
+                }
+            if (event.key.code == sf::Keyboard::P) {
+                    local->SetSize(3);
+                    _shipLength = 3;
+                }
 
             // std::cout << "Cursor now X: " << (float)_cursor[0] * MAP_VERTICES_SPACING
             //  << " Y: " << (float)_cursor[1] * MAP_VERTICES_SPACING << std::endl; 

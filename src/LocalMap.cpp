@@ -81,3 +81,12 @@ Map * LocalMap::GetMap() {
 Rotation * LocalMap::GetRotation() {
     return &_rotation;
 }
+
+void LocalMap::SetSize(int x) {
+    _size = x;
+}
+
+bool LocalMap::PlaceShip(int x, int y) {
+    PlaceShip(x, y, _size);
+    return true;
+}

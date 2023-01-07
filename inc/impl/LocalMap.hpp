@@ -15,6 +15,8 @@ class LocalMap {
         // Returns true if can place.
         bool PlaceShip(int x, int y, int size);
 
+        bool PlaceShip(int x, int y);
+
         // Rotates ship to be placed
         void RotateShip();
 
@@ -23,9 +25,11 @@ class LocalMap {
         // Gets current map data.
         Map * GetMap();
 
+        void SetSize(int x);
+
 
     private:
-
+        int _size;
         Rotation _rotation = top;
         Map _mapInstance;
 };
