@@ -59,8 +59,8 @@ namespace Core
     }
 
 
-    void Game::PlaceShip() {
-        _localMap->PlaceShip(_windowService.GetCursorPosition()[0], _windowService.GetCursorPosition()[1]);
+    bool Game::PlaceShip() {
+        return _localMap->PlaceShip(_windowService.GetCursorPosition()[0], _windowService.GetCursorPosition()[1]);
     }
 
     void Game::GameEnd() {

@@ -28,14 +28,14 @@ namespace Core
             // Send place ship.
 
 
-            void PlaceShip(); // Done
+            bool PlaceShip(); // Done
             // Receives ??
             /* ??? */void ReceiveShipPlaced(int ** map); // Done i guess
 
-            // ??
-            void GameStart();
+            // // ??
+            // void GameStart();
 
-            
+
             // Receives hit.
             void ReceiveEnemyMap(int ** enemyMap); // Handle from CLi here done
             // Sents hit
