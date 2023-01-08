@@ -10,6 +10,7 @@ class LocalMap {
     public:
         // Creates instance of ship game with map size.
         LocalMap(int mapSize);
+        LocalMap();
         
         // Place ship on x,y.
         // Returns true if can place.
@@ -26,6 +27,8 @@ class LocalMap {
         Map * GetMap();
 
         void SetSize(int x);
+
+        void SetRawMap(int ** map);
 
 
     private:

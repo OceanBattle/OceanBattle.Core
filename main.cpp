@@ -3,69 +3,58 @@
 #include <impl/WindowService.hpp>
 #include <impl/LocalMap.hpp>
 #include <iostream>
+#include <impl/Game.hpp>
 
 
 
 int main(){
 
-    char ROTRIGHT[] = "Rotation: Right";
-    char ROTLEFT[] = "Rotation: Left";
-    char ROTDOWN[] = "Rotation: Down";
-    char ROTTOP[] = "Rotation: Top";
+    bool running = true;
+    char move;
 
-    WSUtils::WindowProperties properties {
-        .width = 800,
-        .height = 800,
-        .name = "OceanBattle"
-    };
+    Core::Game game;    
+    game.Open(10);
+    game.SelectShip(2);
 
-    WindowService windowService;
-    windowService.StartWindow(&properties);
+    while(running) {
+        game.Render();
+        // game.Render();
+        std::cin >> move;
 
-    LocalMap local(10);
-    windowService.SetLocalMap(local.GetMap());
-    windowService.SetRotationPtr(local.GetRotation());
-
-    // for (int x = 0; x < local.GetMap()->Size() * local.GetMap()->Size() * 2; x += 2){
-    //     std::cout
-    //     << "Number :" << x/2 << " X : " <<
-    //     local.GetMap()->MapIndices()[x] 
-    //     << " Y :" <<
-    //     local.GetMap()->MapIndices()[x+1] 
-    //     << std::endl;
-    // }
-    // std::cout << sizeof(local.GetMap()->MapIndices()) << std::endl;
-
-    WSUtils::RenderData data {
-        .type = WSUtils::TEXT,
-        .text = ROTTOP
-    };
-
-    local.SetSize(3);
-
-    windowService.ReceiveVisual(&data);
-
-    while(windowService.IsOpen()){
-
-        switch (*local.GetRotation()) {
-            case top:
-                data.text = ROTTOP;
-                break;
-            case down:
-                data.text = ROTDOWN;
-                break;
-            case right:
-                data.text = ROTRIGHT;
-                break;
-            case left:
-                data.text = ROTLEFT;
-                break;
+        if (move == 'a') {
+            game.Move(3);
+        }
+        if (move == 's') {
+            game.Move(2);
+        }
+        if (move == 'd') {
+            game.Move(1);
+        }
+        if (move == 'w') {
+            game.Move(0);
+        }
+        if (move == 'q') {
+            running = false;
+        }
+        if (move == 'p') {
+            game.SwapMap();
+        }
+        if (move == 't') {
+            game.PlaceShip();
+        }
+        if (move == 'r') {
+            game.Rotate();
+        }
+        if (move == '+') {
+            game.SelectShip(3);
+        }
+        if (move == '-') {
+            game.SelectShip(1);
         }
 
-        windowService.DrawMap(0, 10, 10);
-        windowService.Update();
-        windowService.PollEvents(&local);
     }
+
+    game.GameEnd();
 
         
 }

@@ -69,21 +69,31 @@ Map::Map(int mapSize) {
     }
 
     _size = mapSize;
+    _createdLocaly = true;
 }
 
 float * Map::MapIndices() {
     return _indices;
 }
 
+Map::Map(int ** map){
+    _rawMap = map;
+}
+
 Map::~Map() {
 
-    for (int x = 0; x < _size; x++) {
-        delete[] _rawMap[x];
+    if (_createdLocaly) 
+    {
+        for (int x = 0; x < _size; x++) {
+            delete[] _rawMap[x];
+
+        }
+
+        delete[] _rawMap;
 
     }
-
-    delete[] _rawMap;
     delete[] _indices;
+
 }
 
 
@@ -117,4 +127,8 @@ void Map::AddShip(int x, int y, int size, Rotation rotation) {
         
     }
 
+}
+
+void Map::SetRawMap(int **raw){
+    _rawMap = raw;
 }

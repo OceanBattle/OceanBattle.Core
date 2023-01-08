@@ -9,6 +9,7 @@ add_executable(OceanBattle main.cpp
     "src/LocalMap.cpp"
     "src/Map.cpp"
     "src/read.cpp"
+    "src/Game.cpp"
 )
 
 include_directories(

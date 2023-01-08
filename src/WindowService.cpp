@@ -105,7 +105,7 @@ void WindowService::Terminate() {
     _windowInstance.close();
 }
 
-void WindowService::DrawMap(int type, int posx, int posy){
+void WindowService::DrawMap(){
 
 
     // WORKING BELOW
@@ -134,7 +134,7 @@ void WindowService::DrawMap(int type, int posx, int posy){
     glUniformMatrix4fv(_projectionLoc, 1, GL_FALSE, glm::value_ptr(_projectionMAT));
     glUniformMatrix4fv(_transformLoc, 1, GL_FALSE, glm::value_ptr(_transformMAT));
         
-    if(type == 0) {
+    if(_currentRenderMap == 0) {
 
         // int currentType = 0;
 
@@ -205,10 +205,11 @@ void WindowService::DrawMap(int type, int posx, int posy){
                 
             }
         }
+        // std::cout <<_shipLength << std::endl;
     }
 
     // Render server
-    if (type == 2) {
+    if (_currentRenderMap == 1) {
         for (int x = 0; x < _localMap->Size(); x++) {
             for (int y = 0; y < _localMap->Size(); y++) {
 
@@ -231,6 +232,7 @@ void WindowService::DrawMap(int type, int posx, int posy){
                 
             }
         }
+        
     }
 
     
@@ -277,10 +279,10 @@ void WindowService::Update() {
     // _windowInstance.popGLStates();
 
   
-
+    glClear(GL_COLOR_BUFFER_BIT);
+    DrawMap();
     _windowInstance.display();
     
-    glClear(GL_COLOR_BUFFER_BIT);
     // _windowInstance.clear(sf::Color::Black);
 
     // Working on fonts
@@ -435,4 +437,25 @@ void WindowService::AddShader(GLenum type, const char * filename){
 
 void WindowService::SetRotationPtr(Rotation *ptr){
     _rotation = ptr;
+}
+
+
+void WindowService::SwapRenderMap() {
+    if (_currentRenderMap == 1){
+        _currentRenderMap = 0;
+        return;
+    }
+    _currentRenderMap = 1;
+}
+
+void WindowService::SetLengthShip(int length){
+    _shipLength = length;
+}
+
+int * WindowService::GetCursorPosition() {
+    return _cursor;
+}
+
+void WindowService::Close() {
+    _windowInstance.close();
 }

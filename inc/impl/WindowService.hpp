@@ -62,7 +62,7 @@ class WindowService : WindowServiceBase {
 
         // Draws map on x,y coordinates.
         // (x,y) is bottom left corner.
-        void DrawMap(int type, int x, int y);
+        void DrawMap();
 
         // Moves cursor.
         void MoveCursor(Rotation direction);
@@ -73,6 +73,12 @@ class WindowService : WindowServiceBase {
         void SetRotationPtr(Rotation * ptr);
 
         void SetLengthShip(int length);
+
+        void SwapRenderMap();
+
+        int * GetCursorPosition();
+
+        void Close();
 
     private:
         // window instance.
@@ -115,6 +121,8 @@ class WindowService : WindowServiceBase {
         Rotation * _rotation;
 
         int _shipLength = 3;
+
+        int _currentRenderMap = 0;
 
 
         // Map dimensions.

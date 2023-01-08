@@ -5,6 +5,10 @@
 
 LocalMap::LocalMap(int mapSize) : _mapInstance(mapSize) {};
 
+// LocalMap::LocalMap(){
+
+// }
+
 bool LocalMap::PlaceShip(int x, int y, int size){
 
     // checks if coorddinates are inside map
@@ -89,4 +93,8 @@ void LocalMap::SetSize(int x) {
 bool LocalMap::PlaceShip(int x, int y) {
     PlaceShip(x, y, _size);
     return true;
+}
+
+void LocalMap::SetRawMap(int **map) {
+    _mapInstance.SetRawMap(map);
 }
